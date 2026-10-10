@@ -5,20 +5,23 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
-export default defineConfig({
-  lint: {
-    jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
-    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
-    options: { typeAware: true, typeCheck: true },
-  },
-  fmt: {
-    semi: false,
-    singleQuote: true,
-  },
-  plugins: lazyPlugins(() => [vue(), vueDevTools()]),
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+export default defineConfig(({ mode }) => {
+  return {
+    base: mode === 'production' ? '/vue-custom-3d-renderer-sandbox/' : '',
+    lint: {
+      jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+      rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
+      options: { typeAware: true, typeCheck: true },
     },
-  },
+    fmt: {
+      semi: false,
+      singleQuote: true,
+    },
+    plugins: lazyPlugins(() => [vue(), vueDevTools()]),
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+  }
 })
