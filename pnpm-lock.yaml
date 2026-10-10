@@ -192,6 +192,9 @@ importers:
 
   .:
     dependencies:
+      '@vue/runtime-core':
+        specifier: rc
+        version: 3.6.0-rc.10
       vue:
         specifier: rc
         version: 3.6.0-rc.10(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)

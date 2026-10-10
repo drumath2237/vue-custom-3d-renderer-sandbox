@@ -14,6 +14,7 @@
     "check:write": "vp check --fix"
   },
   "dependencies": {
+    "@vue/runtime-core": "^3.5.43",
     "vue": "^3.5.42"
   },
   "devDependencies": {
