@@ -9,7 +9,9 @@
     "preview": "vp preview",
     "build-only": "vp build",
     "type-check": "vue-tsc --build",
-    "format": "vp fmt src/"
+    "format": "vp fmt src/",
+    "check": "vp check",
+    "check:write": "vp check --fix"
   },
   "dependencies": {
     "vue": "^3.5.42"
