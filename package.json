@@ -14,8 +14,8 @@
     "check:write": "vp check --fix"
   },
   "dependencies": {
-    "@vue/runtime-core": "^3.5.43",
-    "vue": "^3.5.42"
+    "@vue/runtime-core": "^3.6.0-rc",
+    "vue": "^3.6.0-rc"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.5",
@@ -32,7 +32,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.11.2",
+      "version": "12.14.0",
       "onFail": "download"
     }
   },
