@@ -192,6 +192,9 @@ importers:
 
   .:
     dependencies:
+      '@babylonjs/lite':
+        specifier: ^1.35.0
+        version: 1.35.0
       '@vue/runtime-core':
         specifier: rc
         version: 3.6.0-rc.12
@@ -375,6 +378,17 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
+
+  '@babylonjs/lite@1.35.0':
+    resolution: {integrity: sha512-Ypl/32aBaHp2l4Ifdk7X3Qre7f6rhw2rvOIis1cefB93dYRwhv5woQ+oLVPee+sGUoKj8ucoUp3vfvMUsWA5Eg==}
+    peerDependencies:
+      '@babylonjs/havok': ^1.3.0
+      '@webgpu/types': ^0.1.52
+    peerDependenciesMeta:
+      '@babylonjs/havok':
+        optional: true
+      '@webgpu/types':
+        optional: true
 
   '@blazediff/core@1.10.0':
     resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
@@ -713,6 +727,9 @@ packages:
 
   '@types/node@26.6.5':
     resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
+
+  '@types/webxr@0.5.24':
+    resolution: {integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==}
 
   '@typescript-native-bridge/darwin-arm64@6.0.3-bridge.18.tsgo.7.0.2':
     resolution: {integrity: sha512-cuLVc0OVh1u4xyo9fQcJAxMca3MJqEJs3TSN0QhGPbYv5T4gYBiHSe69HWL7A27PyaSFuPMTgzN9RqoqlYALAw==}
@@ -1899,6 +1916,10 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
+  '@babylonjs/lite@1.35.0':
+    dependencies:
+      '@types/webxr': 0.5.24
+
   '@blazediff/core@1.10.0': {}
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -2093,6 +2114,8 @@ snapshots:
   '@types/node@26.6.5':
     dependencies:
       undici-types: 8.9.0
+
+  '@types/webxr@0.5.24': {}
 
   '@typescript-native-bridge/darwin-arm64@6.0.3-bridge.18.tsgo.7.0.2':
     optional: true
