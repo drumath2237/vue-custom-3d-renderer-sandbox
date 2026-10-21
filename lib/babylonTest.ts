@@ -6,6 +6,7 @@ import {
   createDirectionalLight,
   createEngine,
   createSceneContext,
+  createSphere,
   createStandardMaterial,
   registerScene,
   startEngine,
@@ -19,17 +20,19 @@ async function _main() {
 
   const engine = await createEngine(renderCanvas)
   const scene = createSceneContext(engine)
+  const camera = createDefaultCamera(scene)
+  attachControl(camera, renderCanvas)
 
   const light = createDirectionalLight([1, -1, 1])
   addToScene(scene, light)
-
-  const _camera = createDefaultCamera(scene)
-  attachControl(_camera, renderCanvas)
 
   const box = createBox(engine, 1)
   const material = createStandardMaterial()
   box.material = material
   addToScene(scene, box)
+
+  const sphere = createSphere(engine)
+  sphere.parent = box
 
   await registerScene(scene)
   await startEngine(engine)

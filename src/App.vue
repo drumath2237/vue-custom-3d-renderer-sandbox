@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import V3DScene from '../lib/V3DScene.vue'
+import SceneVue from '../lib/SceneVue.vue'
+import { vec3, createStandardMaterial } from '@babylonjs/lite'
 </script>
 
 <template>
@@ -9,18 +10,15 @@ import V3DScene from '../lib/V3DScene.vue'
     documentation
   </p>
 
-  <V3DScene>
-    <RotatedCamera />
-    <DirectionalLight />
+  <SceneVue>
+    <DirectionalLight :direction="vec3(1, -1, 1)" />
 
-    <Box>
-      <StandardMaterial />
-
+    <Box :position="vec3()">
       <Sphere>
-        <StandardMaterial />
+        <Material :color="{ r: 1, b: 0, g: 1 }" />
       </Sphere>
     </Box>
-  </V3DScene>
+  </SceneVue>
 </template>
 
 <style scoped></style>
