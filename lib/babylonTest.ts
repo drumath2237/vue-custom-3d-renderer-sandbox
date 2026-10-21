@@ -12,7 +12,7 @@ import {
   startEngine,
 } from '@babylonjs/lite'
 
-async function _main() {
+export async function main() {
   const renderCanvas = document.getElementById('renderCanvas')
   if (!(renderCanvas instanceof HTMLCanvasElement)) {
     return

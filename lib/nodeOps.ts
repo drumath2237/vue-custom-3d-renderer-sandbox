@@ -1,13 +1,13 @@
 // oxlint-disable no-unused-vars
 
-import { defineComponent, h, RendererOptions } from '@vue/runtime-core'
+import { defineComponent, h, type RendererOptions } from '@vue/runtime-core'
 import {
-  ElementsNames,
+  type ElementsNames,
   Box,
   Sphere,
   DirectionalLight,
   Material,
-  SceneVueObject,
+  type SceneVueObject,
   isElementName,
   Null,
 } from './elements'
@@ -15,7 +15,7 @@ import {
 type SceneVueElements = SceneVueObject<any>
 type SceneVueNodes = SceneVueElements
 
-const ops: RendererOptions<SceneVueNodes, SceneVueElements> = {
+export const nodeOps: RendererOptions<SceneVueNodes, SceneVueElements> = {
   createElement(type, _namespace, _isCustomizedBuiltin, props) {
     if (!isElementName(type)) {
       return new Null()

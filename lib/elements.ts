@@ -2,17 +2,17 @@ import {
   addToScene,
   createBox,
   createSphere,
-  EngineContext,
-  Mesh,
-  Quat,
-  SceneContext,
-  Vec3,
-  DirectionalLight as DirLight,
+  type EngineContext,
+  type Mesh,
+  type Quat,
+  type SceneContext,
+  type Vec3,
+  type DirectionalLight as DirLight,
   createDirectionalLight,
-  StandardMaterialProps,
+  type StandardMaterialProps,
   createStandardMaterial,
-  Color3,
-  Material as Material_,
+  type Color3,
+  type Material as Material_,
 } from '@babylonjs/lite'
 
 export const elementsNames = [
@@ -22,6 +22,7 @@ export const elementsNames = [
   'Material',
   'Sphere',
   'Null',
+  'Root',
 ] as const
 
 export type ElementsNames = (typeof elementsNames)[number]
@@ -30,10 +31,28 @@ export function isElementName(name: string): name is ElementsNames {
   return elementsNames.includes(name as any)
 }
 
+type SceneVueContext = {}
+
 export interface SceneVueObject<P> {
   elementName: ElementsNames
   get props(): P
   set props(v: P)
+}
+
+export class RootObject implements SceneVueObject<{}> {
+  elementName = 'Root' as const
+
+  private _context: SceneVueContext
+
+  get props(): {} {
+    return {}
+  }
+
+  set props(v: {}) {}
+
+  public constructor() {
+    this._context = {}
+  }
 }
 
 export class Null implements SceneVueObject<{}> {
