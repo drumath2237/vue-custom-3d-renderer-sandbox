@@ -3,10 +3,15 @@ import { useTemplateRef, onMounted, h, createRenderer, Fragment } from '@vue/run
 import { nodeOps } from '../lib/nodeOps'
 import { RootObject, type SceneVueContext } from '../lib/elements'
 import {
+  addToScene,
   attachControl,
+  createBox,
   createDefaultCamera,
+  createDirectionalLight,
   createEngine,
   createSceneContext,
+  createSphere,
+  createStandardMaterial,
   registerScene,
   startEngine,
 } from '@babylonjs/lite'
@@ -22,7 +27,7 @@ onMounted(async () => {
   const engine = await createEngine(renderCanvas.value)
   const scene = createSceneContext(engine)
   const camera = createDefaultCamera(scene)
-  attachControl(camera, renderCanvas.value)
+  attachControl(camera, renderCanvas.value, scene)
 
   const context: SceneVueContext = { engine, renderCanvas: renderCanvas.value, scene }
   const renderer = createRenderer(nodeOps(context))

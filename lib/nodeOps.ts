@@ -3,10 +3,10 @@
 import { defineComponent, h, type RendererOptions } from '@vue/runtime-core'
 import {
   type ElementsNames,
-  Box,
-  Sphere,
-  DirectionalLight,
-  Material,
+  BoxObject,
+  SphereObject,
+  DirectionalLightObject,
+  MaterialObject,
   type SceneVueObject,
   isElementName,
   Null,
@@ -33,32 +33,35 @@ export function nodeOps(
         case 'Root':
           return new RootObject(context)
         case 'DirectionalLight':
-          return new DirectionalLight({ direction: vec3(0, 0, 0), intensity: 1 })
+          return new DirectionalLightObject({ direction: vec3(1, -1, 1), intensity: 1 })
         case 'Boxx':
-          return new Box(context.engine, { scale: vec3(0.1, 0.1, 0.1) })
+          return new BoxObject(context.engine)
         case 'Sphere':
-          return new Sphere(context.engine, { diameter: 0.1 })
+          return new SphereObject(context.engine)
         case 'Material':
-          return new Material()
+          return new MaterialObject()
         case 'Null':
           return new Null()
       }
     },
 
     insert(el, parent) {
-      console.log('insert: ', el, parent)
+      if (el instanceof Null) {
+        return
+      }
 
-      if (el instanceof Box || el instanceof Sphere) {
-        if (parent instanceof Box || parent instanceof Sphere) {
+      console.log('insert: ', el)
+
+      if (el instanceof BoxObject || el instanceof SphereObject) {
+        if (parent instanceof BoxObject || parent instanceof SphereObject) {
           parent.addToChildren(el)
         }
-
         el.addToScene(context.scene)
-      } else if (el instanceof Material) {
-        if (parent instanceof Box || parent instanceof Sphere) {
+      } else if (el instanceof MaterialObject) {
+        if (parent instanceof BoxObject || parent instanceof SphereObject) {
           parent.setMaterial(el.internalMaterial)
         }
-      } else if (el instanceof DirectionalLight) {
+      } else if (el instanceof DirectionalLightObject) {
         el.addToScene(context.scene)
       }
     },
@@ -94,3 +97,8 @@ function createElementComponent<T = {}>(tag: ElementsNames) {
     },
   })
 }
+
+export const Boxx = createElementComponent('Boxx')
+export const Sphere = createElementComponent('Sphere')
+export const DirectionalLight = createElementComponent('DirectionalLight')
+export const Material = createElementComponent('Material')

@@ -21,7 +21,7 @@ export async function main() {
   const engine = await createEngine(renderCanvas)
   const scene = createSceneContext(engine)
   const camera = createDefaultCamera(scene)
-  attachControl(camera, renderCanvas)
+  attachControl(camera, renderCanvas, scene)
 
   const light = createDirectionalLight([1, -1, 1])
   addToScene(scene, light)

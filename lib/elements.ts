@@ -66,12 +66,12 @@ export class Null implements SceneVueObject<{}> {
   elementName = 'Null' as const
 }
 
-type DirectionalLightProps = {
+export type DirectionalLightProps = {
   direction: Vec3
   intensity: number
 }
 
-export class DirectionalLight implements SceneVueObject<Partial<DirectionalLightProps>> {
+export class DirectionalLightObject implements SceneVueObject<Partial<DirectionalLightProps>> {
   elementName = 'DirectionalLight' as const
   private _props: Partial<DirectionalLightProps>
   private _internalLight: DirLight
@@ -107,11 +107,11 @@ type TransformProps = {
   scale: Vec3
 }
 
-type BoxProps = {
+export type BoxProps = {
   size: number
 } & TransformProps
 
-export class Box implements SceneVueObject<Partial<BoxProps>> {
+export class BoxObject implements SceneVueObject<Partial<BoxProps>> {
   public elementName = 'Boxx' as const
   private _props: Partial<BoxProps>
 
@@ -125,7 +125,7 @@ export class Box implements SceneVueObject<Partial<BoxProps>> {
   }
 
   public set props(v: Partial<BoxProps>) {
-    this._props = this.props
+    this._props = v
 
     const pos = v.position ?? this._internalMesh.position
     const rot = v.rotation ?? this._internalMesh.rotationQuaternion
@@ -139,7 +139,6 @@ export class Box implements SceneVueObject<Partial<BoxProps>> {
   public constructor(engine: EngineContext, props?: Partial<BoxProps>) {
     this._props = props ?? { size: 1 }
     this._internalMesh = createBox(engine, { size: this._props.size })
-    this.props = this._props
   }
 
   public addToScene(scene: SceneContext) {
@@ -150,14 +149,14 @@ export class Box implements SceneVueObject<Partial<BoxProps>> {
     this._internalMesh.material = material
   }
 
-  public addToChildren(obj: Box | Sphere) {
+  public addToChildren(obj: BoxObject | SphereObject) {
     this._internalMesh.children.push(obj.internalMesh)
   }
 }
 
-type SphereProps = { diameter: number } & TransformProps
+export type SphereProps = { diameter: number } & TransformProps
 
-export class Sphere implements SceneVueObject<Partial<SphereProps>> {
+export class SphereObject implements SceneVueObject<Partial<SphereProps>> {
   public elementName = 'Sphere' as const
   private _props: Partial<SphereProps>
 
@@ -171,7 +170,7 @@ export class Sphere implements SceneVueObject<Partial<SphereProps>> {
   }
 
   public set props(v: Partial<SphereProps>) {
-    this._props = this.props
+    this._props = v
 
     const pos = v.position ?? this._internalMesh.position
     const rot = v.rotation ?? this._internalMesh.rotationQuaternion
@@ -196,16 +195,16 @@ export class Sphere implements SceneVueObject<Partial<SphereProps>> {
     this._internalMesh.material = material
   }
 
-  public addToChildren(obj: Box | Sphere) {
+  public addToChildren(obj: BoxObject | SphereObject) {
     this._internalMesh.children.push(obj.internalMesh)
   }
 }
 
-type MaterialProps = {
+export type MaterialProps = {
   color: Color3
 }
 
-export class Material implements SceneVueObject<Partial<MaterialProps>> {
+export class MaterialObject implements SceneVueObject<Partial<MaterialProps>> {
   public elementName = 'Material' as const
 
   private _props: Partial<MaterialProps>
