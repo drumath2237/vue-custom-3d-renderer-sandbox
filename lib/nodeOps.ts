@@ -1,46 +1,32 @@
 // oxlint-disable no-unused-vars
 
 import { defineComponent, h, RendererOptions } from '@vue/runtime-core'
+import { ElementsNames } from './elements'
 
-const elementsNames = [
-  'Scene',
-  'RotatedCamera',
-  'DirectionalLight',
-  'Box',
-  'StandardMaterial',
-  'Sphere',
-] as const
+type V3DNodes = any
+type V3DElements = any
 
-type Nodes = any
-type ElementsNames = (typeof elementsNames)[number]
-
-type Elements = any
-
-type D = Record<ElementsNames, any>
-
-type DD = D['DirectionalLight']
-
-const ops: RendererOptions<Nodes, Elements> = {
-  createComment(text) {
-    return null
-  },
+const ops: RendererOptions<V3DNodes, V3DElements> = {
   createElement(type, _namespace, _isCustomizedBuiltin, props) {
     return null
   },
-  createText(text) {
-    return null
-  },
   insert(el, parent) {},
-  nextSibling(node) {
-    return null
-  },
   parentNode(node) {
     return null
   },
 
   patchProp(el: ElementsNames, key: string, prevValue: any, nextValue: any) {},
-
   remove(el) {},
+
+  nextSibling(node) {
+    return null
+  },
+  createText(text) {
+    return null
+  },
+  createComment(text) {
+    return null
+  },
   setElementText(node, text) {},
   setText(node, text) {},
 }
@@ -57,4 +43,4 @@ function createElementComponent<T = {}>(tag: ElementsNames) {
   })
 }
 
-export const Scene = createElementComponent<{}>('Scene')
+export const Scene = createElementComponent('Scene')
