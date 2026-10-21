@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref, useTemplateRef, onMounted, h, createRenderer, Fragment } from '@vue/runtime-core'
 import { nodeOps } from '../lib/nodeOps'
 import { RootObject } from '../lib/elements'
