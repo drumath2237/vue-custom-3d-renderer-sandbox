@@ -16,9 +16,8 @@ import {
 } from '@babylonjs/lite'
 
 export const elementsNames = [
-  'Scene',
   'DirectionalLight',
-  'Box',
+  'Boxx',
   'Material',
   'Sphere',
   'Null',
@@ -31,7 +30,11 @@ export function isElementName(name: string): name is ElementsNames {
   return elementsNames.includes(name as any)
 }
 
-type SceneVueContext = {}
+export type SceneVueContext = {
+  renderCanvas: HTMLCanvasElement
+  engine: EngineContext
+  scene: SceneContext
+}
 
 export interface SceneVueObject<P> {
   elementName: ElementsNames
@@ -50,8 +53,8 @@ export class RootObject implements SceneVueObject<{}> {
 
   set props(v: {}) {}
 
-  public constructor() {
-    this._context = {}
+  public constructor(context: SceneVueContext) {
+    this._context = context
   }
 }
 
@@ -69,7 +72,7 @@ type DirectionalLightProps = {
 }
 
 export class DirectionalLight implements SceneVueObject<Partial<DirectionalLightProps>> {
-  elementName = 'Box' as const
+  elementName = 'DirectionalLight' as const
   private _props: Partial<DirectionalLightProps>
   private _internalLight: DirLight
 
@@ -109,10 +112,13 @@ type BoxProps = {
 } & TransformProps
 
 export class Box implements SceneVueObject<Partial<BoxProps>> {
-  public elementName = 'Box' as const
+  public elementName = 'Boxx' as const
   private _props: Partial<BoxProps>
 
   private _internalMesh: Mesh
+  public get internalMesh() {
+    return this._internalMesh
+  }
 
   public get props() {
     return this._props
@@ -130,10 +136,10 @@ export class Box implements SceneVueObject<Partial<BoxProps>> {
     this._internalMesh.scaling.copyFrom(scale)
   }
 
-  public constructor(engine: EngineContext, props: BoxProps) {
-    this._props = props
-    this._internalMesh = createBox(engine, { size: props.size })
-    this.props = props
+  public constructor(engine: EngineContext, props?: Partial<BoxProps>) {
+    this._props = props ?? { size: 1 }
+    this._internalMesh = createBox(engine, { size: this._props.size })
+    this.props = this._props
   }
 
   public addToScene(scene: SceneContext) {
@@ -142,6 +148,10 @@ export class Box implements SceneVueObject<Partial<BoxProps>> {
 
   public setMaterial(material: Material_) {
     this._internalMesh.material = material
+  }
+
+  public addToChildren(obj: Box | Sphere) {
+    this._internalMesh.children.push(obj.internalMesh)
   }
 }
 
@@ -152,6 +162,9 @@ export class Sphere implements SceneVueObject<Partial<SphereProps>> {
   private _props: Partial<SphereProps>
 
   private _internalMesh: Mesh
+  public get internalMesh() {
+    return this._internalMesh
+  }
 
   public get props() {
     return this._props
@@ -169,10 +182,10 @@ export class Sphere implements SceneVueObject<Partial<SphereProps>> {
     this._internalMesh.scaling.copyFrom(scale)
   }
 
-  public constructor(engine: EngineContext, props: SphereProps) {
-    this._props = props
-    this._internalMesh = createSphere(engine, { diameter: props.diameter })
-    this.props = props
+  public constructor(engine: EngineContext, props?: Partial<SphereProps>) {
+    this._props = props ?? { diameter: 1 }
+    this._internalMesh = createSphere(engine, { diameter: this._props.diameter })
+    this.props = this._props
   }
 
   public addToScene(scene: SceneContext) {
@@ -181,6 +194,10 @@ export class Sphere implements SceneVueObject<Partial<SphereProps>> {
 
   public setMaterial(material: Material_) {
     this._internalMesh.material = material
+  }
+
+  public addToChildren(obj: Box | Sphere) {
+    this._internalMesh.children.push(obj.internalMesh)
   }
 }
 
@@ -208,9 +225,9 @@ export class Material implements SceneVueObject<Partial<MaterialProps>> {
     this._internalMaterial.diffuseColor = [r, g, b]
   }
 
-  public constructor(props: Partial<MaterialProps>) {
-    this._props = props
-    const { r, g, b } = props.color ?? { r: 0, g: 0, b: 0 }
+  public constructor(props?: Partial<MaterialProps>) {
+    this._props = props ?? { color: { r: 0, b: 0, g: 0 } }
+    const { r, g, b } = props?.color ?? { r: 0, g: 0, b: 0 }
     this._internalMaterial = createStandardMaterial()
     this._internalMaterial.diffuseColor = [r, g, b]
   }

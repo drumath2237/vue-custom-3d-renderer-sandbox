@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Box, Sphere } from '../lib/elements'
 import SceneVue from '../lib/SceneVue.vue'
 import { vec3, createStandardMaterial } from '@babylonjs/lite'
 </script>
@@ -13,11 +14,7 @@ import { vec3, createStandardMaterial } from '@babylonjs/lite'
   <SceneVue>
     <DirectionalLight :direction="vec3(1, -1, 1)" />
 
-    <Box :position="vec3()">
-      <Sphere>
-        <Material :color="{ r: 1, b: 0, g: 1 }" />
-      </Sphere>
-    </Box>
+    <Sphere :position="vec3(0, 0, 0)"> </Sphere>
   </SceneVue>
 </template>
 
