@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { BoxObject, SphereObject } from '../lib/elements'
 import SceneVue from '../lib/SceneVue.vue'
-import { vec3, createStandardMaterial } from '@babylonjs/lite'
-import { Boxx, DirectionalLight, Material, Sphere } from '../lib/nodeOps'
+import { vec3 } from '@babylonjs/lite'
+import { DirectionalLight, Material, Box, Sphere } from '../lib/nodeOps'
 </script>
 
 <template>
@@ -13,10 +12,16 @@ import { Boxx, DirectionalLight, Material, Sphere } from '../lib/nodeOps'
   </p>
 
   <SceneVue>
-    <DirectionalLight :direction="vec3(1, -1, 1)" />
-    <Boxx>
-      <Material></Material>
-    </Boxx>
+    <DirectionalLight :direction="vec3(-0.5, -1, 1)" />
+    <Box :position="vec3(0, 0.5, 0)" :size="0.5">
+      <Material :color="{ r: 1, g: 0, b: 0 }" />
+      <Sphere :diameter="0.3" :position="vec3(0.5, 0, 0)">
+        <Material :color="{ r: 1, g: 1, b: 1 }" />
+      </Sphere>
+      <Box :position="vec3(0, -0.5, 0)" :size="0.5">
+        <Material :color="{ r: 0, g: 0, b: 1 }" />
+      </Box>
+    </Box>
   </SceneVue>
 </template>
 

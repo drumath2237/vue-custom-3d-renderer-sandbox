@@ -13,11 +13,12 @@ import {
   createStandardMaterial,
   type Color3,
   type Material as Material_,
+  vec3,
 } from '@babylonjs/lite'
 
 export const elementsNames = [
   'DirectionalLight',
-  'Boxx',
+  'Box',
   'Material',
   'Sphere',
   'Null',
@@ -90,10 +91,13 @@ export class DirectionalLightObject implements SceneVueObject<Partial<Directiona
     this._internalLight.intensity = intensity
   }
 
-  public constructor(props: DirectionalLightProps) {
-    this._props = props
-    const { x, y, z } = props.direction
-    this._internalLight = createDirectionalLight([x, y, z], props.intensity)
+  public constructor(props?: Partial<DirectionalLightProps>) {
+    this._props = {
+      direction: props?.direction ?? vec3(0, -1, 0),
+      intensity: props?.intensity ?? 1,
+    }
+    const { x, y, z } = this._props.direction!
+    this._internalLight = createDirectionalLight([x, y, z], props?.intensity)
   }
 
   public addToScene(scene: SceneContext) {
@@ -112,7 +116,7 @@ export type BoxProps = {
 } & TransformProps
 
 export class BoxObject implements SceneVueObject<Partial<BoxProps>> {
-  public elementName = 'Boxx' as const
+  public elementName = 'Box' as const
   private _props: Partial<BoxProps>
 
   private _internalMesh: Mesh
@@ -139,6 +143,7 @@ export class BoxObject implements SceneVueObject<Partial<BoxProps>> {
   public constructor(engine: EngineContext, props?: Partial<BoxProps>) {
     this._props = props ?? { size: 1 }
     this._internalMesh = createBox(engine, { size: this._props.size })
+    this.props = this._props
   }
 
   public addToScene(scene: SceneContext) {
