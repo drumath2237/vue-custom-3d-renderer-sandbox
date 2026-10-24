@@ -10,10 +10,12 @@ import {
   type SceneVueObject,
   isElementName,
   Null,
-  RootObject,
   type SceneVueContext,
+  type BoxProps,
+  type SphereProps,
+  type DirectionalLightProps,
+  type MaterialProps,
 } from './elements'
-import { vec3 } from '@babylonjs/lite'
 
 type SceneVueElements = SceneVueObject<any>
 type SceneVueNodes = SceneVueElements
@@ -30,16 +32,25 @@ export function nodeOps(
       console.log('create: ', type, props)
 
       switch (type) {
-        case 'Root':
-          return new RootObject(context)
         case 'DirectionalLight':
-          return new DirectionalLightObject({ direction: vec3(1, -1, 1), intensity: 1 })
-        case 'Boxx':
-          return new BoxObject(context.engine)
+          return new DirectionalLightObject({
+            direction: props?.direction,
+            intensity: props?.intensity,
+          })
+        case 'Box':
+          return new BoxObject(context.engine, {
+            position: props?.position,
+            size: props?.size,
+          })
         case 'Sphere':
-          return new SphereObject(context.engine)
+          return new SphereObject(context.engine, {
+            diameter: props?.diameter,
+            position: props?.position,
+          })
         case 'Material':
-          return new MaterialObject()
+          return new MaterialObject({ color: props?.color })
+        case 'Root':
+          return new Null()
         case 'Null':
           return new Null()
       }
@@ -98,7 +109,8 @@ function createElementComponent<T = {}>(tag: ElementsNames) {
   })
 }
 
-export const Boxx = createElementComponent('Boxx')
-export const Sphere = createElementComponent('Sphere')
-export const DirectionalLight = createElementComponent('DirectionalLight')
-export const Material = createElementComponent('Material')
+export const Box = createElementComponent<Partial<BoxProps>>('Box')
+export const Sphere = createElementComponent<Partial<SphereProps>>('Sphere')
+export const DirectionalLight =
+  createElementComponent<Partial<DirectionalLightProps>>('DirectionalLight')
+export const Material = createElementComponent<Partial<MaterialProps>>('Material')
